@@ -4,7 +4,7 @@ import os
 
 load_dotenv()
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
 def pretty_print_request(request):
     print('\n{}\n{}\n\n{}\n\n{}\n'.format(
