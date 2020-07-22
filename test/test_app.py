@@ -26,7 +26,13 @@ def pretty_print_response(response):
         response.text)
     )
 
-
+    
+def test_one_equals_one():
+    a = 1
+    b = 1
+    assert a == b
+    
+    
 def test_get_nrel_request_and_response():
     url = f"https://developer.nrel.gov/api/pvwatts/v6.json?api_key={os.getenv('NREL_API_KEY')}&address=155+beryl+way+broomfield&system_capacity=4&azimuth=180&tilt=40&array_type=1&module_type=1&losses=10"
 
