@@ -10,3 +10,4 @@ SQLAlchemy
 Psycopg2
 python-dotenv
 requests
+pytest
