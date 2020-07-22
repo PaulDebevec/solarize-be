@@ -1,12 +1,13 @@
 import requests
+import json
 from flask import Flask, request, jsonify
-
 import os
 from dotenv import load_dotenv
-from flask import request, jsonify
-
 load_dotenv()
+
 app = Flask(__name__)
+app.config['TESTING'] = True
+
 
 def pretty_print_request(request):
     print('\n{}\n{}\n\n{}\n\n{}\n'.format(
@@ -57,24 +58,25 @@ def test_get_nrel_request_and_response():
     # pretty_print_response(response)
 
 
-def test_get_solar_system():
-    request = c.get('/results', json={"address": "155 beryl way broomfield",
-                                      "system_capacity": "4",
-                                      "azimuth": "180",
-                                      "tilt": "40",
-                                      "array_type": "1",
-                                      "module_type": "1",
-                                      "losses": "10"})
-
-    def echo():
-        return jsonify(flask.request.get_json())
-
-    with app.test_client() as c:
-
-    json_data = request.get_data()
-
-    assert json_data["outputs"]["ac_monthly"][0] == 479.64813232421875
-    assert json_data["outputs"]["ac_monthly"][1] == 493.1632385253906
-    assert json_data["outputs"]["ac_monthly"][2] == 599.2940673828125
-
-
+# def test_get_solar_system():
+#
+#
+#     # def echo():
+#     #     return jsonify(flask.request.get_json())
+#
+#     with app.test_client() as c:
+#         req = c.post('/results', json={"address": "155 beryl way broomfield",
+#                                        "system_capacity": "4",
+#                                        "azimuth": "180",
+#                                        "tilt": "40",
+#                                        "array_type": "1",
+#                                        "module_type": "1",
+#                                        "losses": "10"})
+#         assert isinstance(req, str)
+#         a = json.loads(req)
+#         json_data = a.get_data()
+#
+#
+#         assert json_data["outputs"]["ac_monthly"][0] == 479.64813232421875
+#         assert json_data["outputs"]["ac_monthly"][1] == 493.1632385253906
+#         assert json_data["outputs"]["ac_monthly"][2] == 599.2940673828125
