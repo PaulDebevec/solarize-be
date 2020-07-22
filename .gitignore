@@ -36,3 +36,5 @@ coverage.xml
 *.DS_Store
 venv/*
 .env
+pyvenv.cfg
+.idea
