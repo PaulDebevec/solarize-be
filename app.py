@@ -1,7 +1,3 @@
-# from flask_sqlalchemy   import SQLAlchemy
-# from flask_marshmallow import Marshmallow
-# import code
-# code.interact(local=dict(globals(), **locals()))
 import json
 import os
 from flask import Flask, jsonify, request
