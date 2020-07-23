@@ -5,6 +5,8 @@ import requests
 from dotenv import load_dotenv
 load_dotenv()
 
+import code
+
 
 # Init app
 app = Flask(__name__)
@@ -30,7 +32,13 @@ class NREL(object):
         self.losses = fe_json["solarizer_parameters"]['losses']
 
     def get(self):
-        return requests.get(f'https://developer.nrel.gov/api/pvwatts/v6.json?api_key={os.getenv("NREL_API_KEY")}&address={self.address}&system_capacity={self.system_capacity}&azimuth={self.azimuth}&tilt={self.tilt}&array_type={self.array_type}&module_type={self.module_type}&losses={self.losses}')
+        system = requests.get(f'https://developer.nrel.gov/api/pvwatts/v6.json?api_key={os.getenv("NREL_API_KEY")}&address={self.address}&system_capacity={self.system_capacity}&azimuth={self.azimuth}&tilt={self.tilt}&array_type={self.array_type}&module_type={self.module_type}&losses={self.losses}')
+        value = requests.get(f'https://developer.nrel.gov/api/utility_rates/v3.json?api_key={os.getenv("NREL_API_KEY")}&address={self.address}')
+        code.interact(local=dict(globals(), **locals()))
+
+        system_and_value = {**system, **value}
+
+        return system_and_value
 
 
 # Run Server
