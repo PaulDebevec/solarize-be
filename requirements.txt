@@ -11,3 +11,4 @@ Psycopg2
 python-dotenv
 requests
 pytest
+gunicorn
