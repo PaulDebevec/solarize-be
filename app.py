@@ -1,12 +1,27 @@
+from dotenv import load_dotenv
+from flask import Flask, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+import requests
 import json
 import os
-from flask import Flask, jsonify, request
-import requests
-from dotenv import load_dotenv
 load_dotenv()
 
-
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres@localhost/solarizer'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+Migrate(app, db)
+
+
+class EcoTip(db.Model):
+    __tablename__ = "eco_tips"
+
+    id = db.Column(db.Integer, primary_key=True)
+    tip = db.Column(db.String())
+
+    def __init__(self, tip):
+        self.tip = tip
 
 
 @app.route('/results', methods=['POST'])
