@@ -77,6 +77,8 @@ class NREL(object):
         value_dict['value_monthly'] = value_list
         return value_dict
 
+    # now write a function to generate user offset percentage
+
 
 # Run Server
 if __name__ == '__main__':
