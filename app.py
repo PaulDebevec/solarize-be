@@ -2,7 +2,7 @@ import json
 import os
 from flask import Flask, jsonify, request
 import requests
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from dotenv import load_dotenv
 load_dotenv()
 
