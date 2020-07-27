@@ -3,11 +3,12 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import requests
-import json
-import os
+from flask_cors import CORS, cross_origin
+from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres@localhost/solarizer'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -29,13 +30,16 @@ class EcoTip(db.Model):
 
 
 @app.route('/results', methods=['POST'])
+@cross_origin()
 def get_solar_data():
     results = NREL(request.json)
     system_payload = results.get_system_info()
     value_payload = results.get_kwh_rate_info()
     calculated_value = results.calculate_value(value_payload)
     system_and_value_payload = {**system_payload, **calculated_value}
-    return jsonify(system_and_value_payload)
+    offset_payload = results.calculate_offset()
+    total_payload = {**system_and_value_payload, **offset_payload}
+    return jsonify(total_payload)
 
 
 class NREL(object):
@@ -48,10 +52,15 @@ class NREL(object):
         self.array_type = params['array_type']
         self.module_type = params['module_type']
         self.losses = params['losses']
+        self.historical_values = fe_json['historical_kWh']
         self.energy_output = None
         self.monthly_values = {
             "value_monthly": ""
         }
+        self.percent_offset = {
+            "percent_offset": ""
+        }
+
 
     def get_system_info(self):
         response = requests.get(f'https://developer.nrel.gov/api/pvwatts/v6.json?api_key={os.getenv("NREL_API_KEY")}&address={self.address}&system_capacity={self.system_capacity}&azimuth={self.azimuth}&tilt={self.tilt}&array_type={self.array_type}&module_type={self.module_type}&losses={self.losses}')
@@ -76,6 +85,16 @@ class NREL(object):
         value_dict = self.monthly_values
         value_dict['value_monthly'] = value_list
         return value_dict
+
+    def calculate_offset(self):
+        if self.historical_values['january'] == "undefined":
+            return self.percent_offset
+        else:
+            summed_historical = sum(self.historical_values.values())
+            summed_output = sum(self.energy_output)
+            percentage = (summed_output / summed_historical) * 100
+            self.percent_offset['percent_offset'] = percentage
+            return self.percent_offset
 
 
 if __name__ == '__main__':

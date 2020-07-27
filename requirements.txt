@@ -19,3 +19,4 @@ pytest
 gunicorn
 flask_sqlalchemy
 flask-migrate
+flask-cors
