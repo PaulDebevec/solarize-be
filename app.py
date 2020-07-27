@@ -2,14 +2,17 @@ import json
 import os
 from flask import Flask, jsonify, request
 import requests
+from flask_cors import CORS, cross_origin
 from dotenv import load_dotenv
 load_dotenv()
 
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/results', methods=['POST'])
+@cross_origin()
 def get_solar_data():
     results = NREL(request.json)
     system_payload = results.get_system_info()
