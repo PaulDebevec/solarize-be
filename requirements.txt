@@ -17,3 +17,4 @@ Werkzeug==1.0.1
 Psycopg2
 pytest
 gunicorn
+flask-cors
