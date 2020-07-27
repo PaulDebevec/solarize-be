@@ -2,8 +2,9 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from unittest import TestCase
-from solarizer import app
+from app import app
 from sqlalchemy import create_engine
+import config
 import requests
 import os
 load_dotenv()
@@ -12,7 +13,6 @@ load_dotenv()
 class TestApplication(TestCase):
 
     app = Flask(__name__)
-
     os.environ["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres@localhost/solarizer_test"
     engine = create_engine(os.getenv("SQLALCHEMY_DATABASE_URI"))
     TESTING = True
@@ -21,29 +21,12 @@ class TestApplication(TestCase):
 
     def setUp(self):
         self.app.config_app('testing')
+        app.config.from_object("app_config.testing")
         db.create_all()
 
     def tearDown(self):
         db.session.remove()
         db.drop_all()
-
-
-
-    def pretty_print_request(request):
-        print('\n{}\n{}\n\n{}\n\n{}\n'.format(
-            '-----------Request----------->',
-            request.method + ' ' + request.url,
-            '\n'.join('{}: {}'.format(k, v) for k, v in request.headers.items()),
-            request.body)
-        )
-
-    def pretty_print_response(response):
-        print('\n{}\n{}\n\n{}\n\n{}\n'.format(
-            '<-----------Response-----------',
-            'Status code:' + str(response.status_code),
-            '\n'.join('{}: {}'.format(k, v) for k, v in response.headers.items()),
-            response.text)
-        )
 
 
     def test_one_equals_one():
@@ -79,10 +62,8 @@ class TestApplication(TestCase):
         assert response_body["outputs"]["ac_monthly"][1] == 493.1632385253906
         assert response_body["outputs"]["ac_monthly"][2] == 599.2940673828125
 
-        # pretty_print_request(response.request)
-        # pretty_print_response(response)
 
-    def test_eco_tips(setUp, ):
+    def test_eco_tips(setUp):
         tip1 = EcoTip("Hello Tip Test 1")
         tip2 = EcoTip("Tip Test 2")
         db.session.add(tip1)
