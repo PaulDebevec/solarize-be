@@ -2,7 +2,7 @@ class Config(object):
     DEBUG = False
     CSRF_ENABLED = False
     # SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/tasks'
-    # SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class DevelopmentConfig(Config):
     DEBUG = True
@@ -13,7 +13,7 @@ class TestingConfig(Config):
     TESTING = True
     DEBUG = True
     BUNDLE_ERRORS = True
-    # SQLALCHEMY_DATABASE_URI = 'sqlite:///testing.db'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres@localhost/solarizer_test'
 
 
 class ProductionConfig(Config):

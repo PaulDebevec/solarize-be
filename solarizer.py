@@ -23,6 +23,9 @@ class EcoTip(db.Model):
     def __init__(self, tip):
         self.tip = tip
 
+    def __repr__(self):
+        return f"tip('{self.tip}')"
+
 
 @app.route('/results', methods=['POST'])
 def get_solar_data():
