@@ -4,7 +4,6 @@
 
 * [About](#about)
   * [Learning Goals](#learning-goals)
-  * [Tech Stack](#tech-stack)
 * [Getting Started](#getting-started)
   * [Installation](#installation)
   * [Testing](#testing)
