@@ -8,7 +8,7 @@
 * [Getting Started](#getting-started)
   * [Installation](#installation)
   * [Testing](#testing)
-* [Sweater Weather Access Points](#sweater-weather-access-points)
+* [Solarizer Microservice Endpoints](#solarizer-microservice-endpoints)
 
 ## About
 
