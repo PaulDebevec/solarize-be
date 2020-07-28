@@ -43,7 +43,6 @@ class NREL(object):
             "percent_offset": ""
         }
 
-
     def get_system_info(self):
         response = requests.get(f'https://developer.nrel.gov/api/pvwatts/v6.json?api_key={os.getenv("NREL_API_KEY")}&address={self.address}&system_capacity={self.system_capacity}&azimuth={self.azimuth}&tilt={self.tilt}&array_type={self.array_type}&module_type={self.module_type}&losses={self.losses}')
         self.energy_output = json.loads(response.text)['outputs']['ac_monthly']
