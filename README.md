@@ -76,7 +76,7 @@ pytest --<I forgot the flag...>
 
 Retrieve solar energy system information:
 
-User-input sent in the request body
+* User-input sent in the request body
 ```sh
 {
   "solarizer_parameters": {
