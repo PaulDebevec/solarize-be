@@ -23,18 +23,12 @@ This microservice is for our front-end app [Solarizer](https://github.com/PaulDe
 
 ### Built with:
 
-- Ruby: 2.5.1
-- PostgreSQL: 12.2
-- Rails: 6.0.3
-- Bcrypt (password encryption)
-- fast_jsonapi
+- Python 3.7
+- Flask 1.1.1
 
 ***Testing framework***
-- RSpec
-- Capybara
-- Simplecov
-- Shoulda-matchers
-- Pry (For debugging)
+- Unittest
+- Pytest
 
 ## Getting Started
 
@@ -44,156 +38,124 @@ To get a local copy up and running follow these simple steps.
 
 1. Clone the repo
 ```sh
-git clone git@github.com:PaulDebevec/sweater_weather.git
+git clone git@github.com:PaulDebevec/solarize-be.git
 ```
-2. Install the Gem File
+2. Install the `requirements.txt` File
 ```sh
-bundle install
+<command>
 ```
 3. Create your environment
 ```sh
-rails db:create
-rails db:migrate
+<command>
 ```
-4. Install Figaro
+4. 
 ```sh
-figaro install
-```
-5. Visit the Google API, OpenWeather and Unsplash site to retrieve your API keys. The keys must be stored securely in the `application.yml` file of your `app/config` directory.
 
+```
+
+5. 
 ```sh
-WEATHER_API_KEY: <YOUR OPEN WEATHER API KEY>
-GOOGLE_API_KEY: <YOUR GOOGLE API KEY>
 
-UNSPLASH_API_KEY: <YOUR UNSPLASH API KEY>
-UNSPLASH_SECRET: <YOUR UNSPLASH SECRET>
-
-ZOMATO_API_KEY: <YOUR ZOMATO API KEY>
 ```
+
 
 ### Testing
 
-1. Install RSpec
+1. Run the test suite from the root directory of the repository
 
 ```sh
-bundle install rspec
+pytest
 ```
-2. Require `webmock` in the `spec_helper.rb` file
-
+* If you would like more information on the errors, run:
 ```sh
-require 'webmock/rspec'
+pytest --<I forgot the flag...>
 ```
 
-3. Include the `vcr` config block in the `rails_helper.rb` file:
 
-```sh 
-require 'vcr'
-require 'webmock/rspec'
+## Solarizer Microservice Endpoints
 
-VCR.configure do |config|
-  config.cassette_library_dir = 'spec/cassettes'
-  config.hook_into :webmock
-  config.configure_rspec_metadata!
-  config.allow_http_connections_when_no_cassette = true
-  config.filter_sensitive_data('<WEATHER-API-KEY>') {ENV['WEATHER_API_KEY']}
-  config.filter_sensitive_data('<GOOGLE_API_KEY>') {ENV['GOOGLE_API_KEY']}
-  config.filter_sensitive_data('<UNSPLASH-API-KEY>') {ENV['UNSPLASH_API_KEY']}
-  config.filter_sensitive_data('<UNSPLASH-SECRET>') {ENV['UNSPLASH_SECRET']}
-end
-```
-4. Run the test suite from the root directory of the repository
+Retrieve solar energy system information:
 
+User-input sent in the request body
 ```sh
-rspec
+{
+  "solarizer_parameters": {
+    "name": "example request",
+    "address": "1490+Delgany+St+Denver+CO+80202",
+    "system_capacity": 4,
+    "module_type": 0,
+    "array_type": 0,
+    "losses": 14,
+    "tilt": 20,
+    "azimuth": 180
+  },
+  "historical_kWh": {
+    "january": 100,
+    "february": 100,
+    "march": 100,
+    "april": 100,
+    "may": 100,
+    "june": 100,
+    "july": 100,
+    "august": 100,
+    "september": 100,
+    "october": 100,
+    "november": 100,
+    "december": 100
+  }
+}
 ```
 
-## Sweater Weather Endpoints
-
-Retrieve a background picture for a specific location:
+Request
 ```sh
-GET api/v1/backgrounds?location=<location_name_here>
+POST /results
 ```
+
 Expected response: 
 ```sh
 {
-    "data": {
-        "id": 23723,
-        "type": "background",
-        "attributes": {
-            "url": "image_link_here"
-        }
-    }
+    "ac_monthly": [
+        397.0354309082031,
+        429.8955383300781,
+        570.6409912109375,
+        598.790283203125,
+        609.8270263671875,
+        609.14501953125,
+        599.88525390625,
+        583.9315795898438,
+        544.9886474609375,
+        485.9424743652344,
+        412.0427551269531,
+        366.7494201660156
+    ],
+    "percent_offset": 517.4062016805012,
+    "solrad_monthly": [
+        3.810142755508423,
+        4.711258888244629,
+        5.75254487991333,
+        6.278196811676025,
+        6.404174327850342,
+        6.974189758300781,
+        6.6839070320129395,
+        6.462113857269287,
+        6.07655668258667,
+        5.0663628578186035,
+        4.2511725425720215,
+        3.53259539604187
+    ],
+    "value_monthly": [
+        43.872415115356446,
+        47.50345698547363,
+        63.055829528808594,
+        66.16632629394532,
+        67.38588641357421,
+        67.31052465820312,
+        66.28732055664062,
+        64.52443954467773,
+        60.22124554443359,
+        53.6966434173584,
+        45.53072444152832,
+        40.525810928344725
+    ]
 }
-```
-Retrieve weather forecast for a specific location:
-```sh
-GET api/v1/forecast?location=<location_name>
-```
-Expected response: 
-```sh
-{:data=>
-  {:id=>"1",
-   :type=>"forecast_info",
-   :attributes=>
-    {:id=>1,
-     :today_forecast=>
-      {:hourly_weather=>
-        {:hourly_weather=>
-          [{:time=>"8:00 PM", :temp=>55.81},
-           {:time=>"9:00 PM", :temp=>54.32},
-           {:time=>"10:00 PM", :temp=>53.71},
-           {:time=>"11:00 PM", :temp=>52.54},
-           {:time=>"12:00 AM", :temp=>50.38},
-           {:time=>"1:00 AM", :temp=>49.41},
-           {:time=>"2:00 AM", :temp=>46.36},
-           {:time=>"3:00 AM", :temp=>46.15}]},
-       :description=>"light rain",
-       :location=>"Berthoud, Colorado",
-       :temp_average=>55.81,
-       :temp_high=>55.81,
-       :temp_low=>51.53,
-       :feels_like=>35.96,
-       :humidity=>54,
-       :visibility=>10,
-       :uv_index=>8.96,
-       :sunrise=>"05:30 AM",
-       :sunset=>"08:28 PM"},
-     :weekly_forecast=>
-      {:daily_notes=>
-        [{:day=>"Monday", :description=>"Rain", :precipitation_mm=>2, :temp_high=>55.81, :temp_low=>51.53},
-         {:day=>"Tuesday", :description=>"Rain", :precipitation_mm=>1, :temp_high=>68.86, :temp_low=>47.84},
-         {:day=>"Wednesday", :description=>"Clouds", :precipitation_mm=>0, :temp_high=>77.92, :temp_low=>46.6},
-         {:day=>"Thursday", :description=>"Clear", :precipitation_mm=>0, :temp_high=>82.9, :temp_low=>51.4},
-         {:day=>"Friday", :description=>"Clear", :precipitation_mm=>0, :temp_high=>91.44, :temp_low=>55.11},
-         {:day=>"Saturday", :description=>"Rain", :precipitation_mm=>0, :temp_high=>93.13, :temp_low=>60.31},
-         {:day=>"Sunday", :description=>"Clouds", :precipitation_mm=>0, :temp_high=>90.45, :temp_low=>60.3}]}}}}
-
-```
-Register a new user:
-```sh
-POST api/v1/users?email=<email_address_here>&password=<password_here>&password_confirmation=<confirmation_password_here>
-```
-Expected response: 
-```sh
-{:data=>{:id=>"195", :type=>"users", :attributes=>{:email=>"whatever@example.com", :api_key=>"6e5da00f3e4119b1d114c685908916d8"}}}
-```
-Login a registered user:
-```
-POST api/v1/sessions?email=<email_address_here>&password=<password_here>
-```
-Expected response: 
-```sh
-{:data=>{:id=>"196", :type=>"users", :attributes=>{:email=>"whatever@example.com", :api_key=>"jij342lmk1oj5klj234KNLMn34kmKM436"}}}
-```
-
-Returns road trip information for a registered user:
-```
-POST api/v1/road_trip?origin=<origin_here>&destination=<destination_here>&api_key=<api_key_here>
-```
-Expected response: 
-```sh
-{:data=>
-  {:id=>"42",
-   :type=>"road_trip_info",
-   :attributes=>{:origin=>"Denver, CO, USA", :destination=>"Pueblo, CO, USA", :travel_time=>"1 hour 48 mins", :forecast=>{:weather=>{:temp=>65.57, :description=>"clear sky"}}}}}
 ```
