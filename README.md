@@ -1,4 +1,4 @@
-## Solarizer Microservice [![Build Status](https://travis-ci.com/PaulDebevec/solarizer-be.svg?branch=master)](https://travis-ci.com/github/PaulDebevec/solarize-be)
+## Solarizer Microservice [![Build Status](https://travis-ci.com/PaulDebevec/solarizer-be.svg?branch=master)](https://travis-ci.com/github/PaulDebevec/solarize-be/builds/177855156)
 
 ## Table of Contents
 
