@@ -39,14 +39,12 @@ To get a local copy up and running follow these simple steps.
 ```sh
 git clone git@github.com:PaulDebevec/solarize-be.git
 ```
-2. Install the `requirements.txt` File
+2. Create your environment
+```python3 -m venv venv
+```
+3. ```Install the `requirements.txt` File
 ```sh
 <command>
-```
-3. Create your environment
-```sh
-<command>
-```
 4. 
 ```sh
 
