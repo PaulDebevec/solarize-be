@@ -49,6 +49,13 @@ source venv/bin/activate
 4. Install the `requirements.txt` file
 ```sh
 pip install -r requirements.txt
+
+```
+
+### Running
+1. In order to run the application, drop into your solarize-be directory and run the following command:
+```sh
+python app.py
 ```
 
 
@@ -59,7 +66,7 @@ pip install -r requirements.txt
 ```sh
 pytest
 ```
-* If you would like more information on the items like local variables, run:
+2. If you would like more information on the items like local variables, run:
 ```sh
 pytest --showlocals
 ```
