@@ -26,7 +26,6 @@ This microservice is for our front-end app [Solarizer](https://github.com/PaulDe
 - Flask 1.1.1
 
 ***Testing framework***
-- Unittest
 - Pytest
 
 ## Getting Started
@@ -39,20 +38,17 @@ To get a local copy up and running follow these simple steps.
 ```sh
 git clone git@github.com:PaulDebevec/solarize-be.git
 ```
-2. Create your environment
-```python3 -m venv venv
+2. Create your virtual environment (*NOTE:  this should be installed at the same level as the project directory*)
+```sh
+python3 -m venv venv
 ```
-3. ```Install the `requirements.txt` File
+3. Activate your virtual environment (*NOTE: drop into the solarize-be directory before activation*)
 ```sh
-<command>
-4. 
-```sh
-
+source venv/bin/activate
 ```
-
-5. 
+4. Install the `requirements.txt` file
 ```sh
-
+pip install -r requirements.txt
 ```
 
 
@@ -63,9 +59,9 @@ git clone git@github.com:PaulDebevec/solarize-be.git
 ```sh
 pytest
 ```
-* If you would like more information on the errors, run:
+* If you would like more information on the items like local variables, run:
 ```sh
-pytest --<I forgot the flag...>
+pytest --showlocals
 ```
 
 
